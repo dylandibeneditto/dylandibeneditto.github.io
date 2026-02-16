@@ -2,15 +2,17 @@ import adapter from "@sveltejs/adapter-static";
 
 const dev = process.argv.includes("dev");
 
-export default {
+const config = {
   kit: {
     adapter: adapter({
-      pages: "dist",
-      assets: "dist",
+      pages: "build",
+      assets: "build",
       fallback: null,
     }),
     paths: {
-      base: dev ? "" : "/portfolio",
+      base: "",
     },
   },
 };
+
+export default config;

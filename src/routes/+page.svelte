@@ -5,7 +5,7 @@
 		devicePixelRatio,
 	} from "svelte/reactivity/window";
 	import { startBackground } from "$lib/background.svelte";
-	import { triggerAnimateEffect } from "$lib/animateLoad";
+	import { triggerAnimateEffect } from "$lib/animateLoad.svelte";
 	import { onMount } from "svelte";
 	import Header from "$lib/components/header.svelte";
 	import Projects from "$lib/components/projects.svelte";

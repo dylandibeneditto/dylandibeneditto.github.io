@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'SF-Pro';
-  src: url('$lib/assets/SF-Pro.ttf');
+  src: url('assets/SF-Pro.ttf') format('truetype');
 }
 
 html {
@@ -44,9 +44,8 @@ body, html {
     opacity: 0;
   }
   100% {
-    transform: translate(0,0);
+    transform: translate(0, 0);
     filter: blur(0px);
-  backdrop-filter: blur(2px);
     opacity: 1;
   }
 }
