@@ -9,6 +9,7 @@
 	import { onMount } from "svelte";
 	import Header from "$lib/components/header.svelte";
 	import Projects from "$lib/components/projects.svelte";
+	import Footer from "$lib/components/footer.svelte";
 
 	let canvas: HTMLCanvasElement;
 
@@ -33,6 +34,8 @@
 	<Header />
 	<div></div>
 	<Projects />
+	<div></div>
+	<Footer />
 </div>
 
 <style>
@@ -48,7 +51,7 @@
 
 	.page {
 		display: grid;
-		grid-template-rows: 10rem auto 5rem auto;
+		grid-template-rows: 10rem auto 5rem auto 5rem auto;
 		z-index: 1;
 		width: 100dvw;
 		height: fit-content;
