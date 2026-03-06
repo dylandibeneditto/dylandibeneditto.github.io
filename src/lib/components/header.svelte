@@ -18,13 +18,15 @@
             target="_blank"
             href="https://github.com/dylandibeneditto">github</a
         >
+        <a class="resume hidden" target="_blank" href="">resume</a>
+        <a class="photos hidden" href="/photos" target="_blank">photos</a>
     </div>
 </div>
 
 <style>
     .header {
         width: 30vw;
-        min-width: 400px;
+        min-width: 500px;
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
@@ -49,11 +51,10 @@
     .links > * {
         color: var(--secondary);
         text-decoration: none;
-        opacity: 0.7;
-        transition: opacity 0.1s ease;
+        transition: all 0.3s ease;
     }
 
     .links > *:hover {
-        opacity: 0.8 !important;
+        opacity: 0.7 !important;
     }
 </style>

@@ -15,11 +15,23 @@
 
 	onMount(() => {
 		const stop = startBackground(canvas);
-		console.log("Mounted");
-		setTimeout(() => {
+
+		const runAnimation = () => {
+			console.log("Page fully loaded");
 			triggerAnimateEffect();
-		}, 600);
-		return stop;
+		};
+
+		if (document.readyState === "complete") {
+			// page already loaded (important for SPA navigation)
+			runAnimation();
+		} else {
+			window.addEventListener("load", runAnimation, { once: true });
+		}
+
+		return () => {
+			stop();
+			window.removeEventListener("load", runAnimation);
+		};
 	});
 </script>
 

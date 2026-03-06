@@ -26,18 +26,18 @@
         demolink="https://waldron-catering.com"
     />
 
-    <Repo
-        image=""
-        title="Compiler"
-        description=""
-        tags={["C++", "Assembly"]}
-        repolink="https://github.com/dylandibeneditto/compiler"
-    />
+    <!-- <Repo -->
+    <!--     image="" -->
+    <!--     title="Compiler" -->
+    <!--     description="" -->
+    <!--     tags={["C++", "Assembly"]} -->
+    <!--     repolink="https://github.com/dylandibeneditto/compiler" -->
+    <!-- /> -->
 
     <Repo
-        image=""
+        image="repo-images/desmos.png"
         title="MNIST Desmos Character Recognition"
-        description="Winner of the 2025 Desmos Art Competition for the 17-18yo range"
+        description="Winner of the 2025 Desmos Art Competition for the 17-18yo range. Built out the MNIST Character recognition inside of a graphing calculator. I trained the model in python using keras, came up with a way to export the weights and biases of the model, and built out the logic of a Multi-layer Perceptron Neural Net."
         tags={["Python", "Keras", "Neural Networks", "Machine Learning"]}
         demolink="https://www.desmos.com/calculator/lylglzov6x"
         repolink="https://github.com/dylandibeneditto/mnist-desmos"

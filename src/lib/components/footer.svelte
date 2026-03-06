@@ -1,19 +1,17 @@
 <div class="footer animate-on-load">
-    <div class="hidden">
-        <div class="name">Dylan DiBeneditto</div>
-        <div class="title">Software Engineer</div>
-        <div></div>
-        <a class="email" href="mailto:dibenedittod@gmail.com" target="_blank"
-            >dibenedittod@gmail.com</a
-        >
-        <a
-            class="github"
-            href="https://github.com/dylandibeneditto"
-            target="_blank">github</a
-        >
-        <a class="photos" href="/photos" target="_blank">photos</a>
-        <a class="resume" href="" tartget="_blank">resume</a>
-    </div>
+    <div class="name hidden">Dylan DiBeneditto</div>
+    <div class="title hidden">Software Engineer</div>
+    <div></div>
+    <a class="email hidden" href="mailto:dibenedittod@gmail.com" target="_blank"
+        >dibenedittod@gmail.com</a
+    >
+    <a
+        class="github hidden"
+        href="https://github.com/dylandibeneditto"
+        target="_blank">github</a
+    >
+    <a class="resume hidden" href="" tartget="_blank">resume</a>
+    <a class="photos hidden" href="/photos" target="_blank">photos</a>
 </div>
 
 <style>
@@ -23,34 +21,30 @@
         padding: 1rem;
         height: min-content;
         backdrop-filter: blur(2px);
-    }
-
-    .footer > * {
-        width: 100%;
         display: grid;
         grid-template-columns: auto auto 1fr auto auto auto auto;
         gap: 3rem;
         padding-bottom: 5rem;
     }
 
-    .footer > * > a {
+    .footer > a {
         color: var(--secondary);
         text-decoration: none;
-        transition: opacity 0.1s ease;
+        transition: opacity 0.3s ease;
     }
 
-    .footer > * > a:hover {
-        opacity: 0.8;
+    .footer > a:hover {
+        opacity: 0.7 !important;
     }
 
     @media (max-width: 900px) {
-        .footer > * > :nth-child(1),
-        .footer > * > :nth-child(2),
-        .footer > * > :nth-child(3) {
+        .footer > :nth-child(1),
+        .footer > :nth-child(2),
+        .footer > :nth-child(3) {
             display: none;
         }
 
-        .footer > * {
+        .footer {
             grid-template-columns: auto auto auto auto;
         }
     }
