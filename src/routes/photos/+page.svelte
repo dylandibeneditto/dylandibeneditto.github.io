@@ -19,6 +19,7 @@
 			console.log("Page fully loaded");
 			triggerAnimateEffect();
 			layoutMasonry();
+			setupLazyLoading();
 		};
 
 		if (document.readyState === "complete") {
@@ -35,6 +36,50 @@
 			window.removeEventListener("resize", layoutMasonry);
 		};
 	});
+
+	function setupLazyLoading() {
+		if (!photosContainer) return;
+
+		const items = Array.from(photosContainer.children) as HTMLElement[];
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const photoElement = entry.target as HTMLElement;
+						const img = photoElement.querySelector("img");
+
+						if (img && !img.complete) {
+							// Image hasn't loaded yet, wait for it
+							img.addEventListener(
+								"load",
+								() => {
+									photoElement.classList.remove("hidden");
+									photoElement.classList.add("animate");
+									layoutMasonry(); // Recalculate layout after image loads
+								},
+								{ once: true },
+							);
+						} else {
+							// Image already loaded
+							photoElement.classList.remove("hidden");
+							photoElement.classList.add("animate");
+						}
+
+						observer.unobserve(entry.target);
+					}
+				});
+			},
+			{
+				rootMargin: "100px", // Start loading before entering viewport
+				threshold: 0.01,
+			},
+		);
+
+		items.forEach((item) => {
+			observer.observe(item);
+		});
+	}
 
 	function layoutMasonry() {
 		if (!photosContainer) return;
@@ -114,7 +159,7 @@
 
 <div class="page animate-on-load">
 	<a href="/" data-sveltekit-reload class="back hidden">Go Back</a>
-	<div class="photos hidden animate-on-load" bind:this={photosContainer}>
+	<div class="photos" bind:this={photosContainer}>
 		<Photo
 			image="pictures/massive-july25.jpg"
 			location="Leadville, CO"
