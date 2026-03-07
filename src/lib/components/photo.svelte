@@ -2,17 +2,18 @@
     let { image, location, time } = $props();
 </script>
 
-<div class="photo animate-on-load">
+<div class="photo animate-on-load hidden">
     <img class="image" src={image} />
-    <div class="metadata">
-        <div class="location">{location}</div>
-        <div class="time">{time}</div>
+    <div class="metadata animate-on-load">
+        <div class="location hidden">{location}</div>
+        <div class="time hidden">{time}</div>
     </div>
 </div>
 
 <style>
     .photo {
         display: flex;
+        flex-direction: column;
         gap: 0.5rem;
     }
 
@@ -31,5 +32,6 @@
     .metadata {
         display: grid;
         grid-template-columns: 1fr auto;
+        padding: 0rem 0.25rem;
     }
 </style>

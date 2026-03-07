@@ -19,7 +19,7 @@
             href="https://github.com/dylandibeneditto">github</a
         >
         <a class="resume hidden" target="_blank" href="">resume</a>
-        <a class="photos hidden" href="/photos" target="_blank">photos</a>
+        <a class="photos hidden" href="/photos" data-sveltekit-reload>photos</a>
     </div>
 </div>
 
