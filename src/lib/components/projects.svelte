@@ -6,7 +6,7 @@
     <Repo
         image="repo-images/fmov.png"
         title="fmov"
-        description="What started as a project to create chess videos programmatically turned into the most efficient python library for generating videos. I simply wanted something that would handle the interactions between FFmpeg and python, without having to hard-code shell commands. The library is simple, taking in image objects from PIL, piping them into FFmpeg, handling all of the flags for rendering, and finally assembling the video with any sound effects. Got to learn a lot about the process of creating effective projects for real users and writing documentation. 'pip install fmov'"
+        description="What started as a project to create chess videos programmatically turned into the most efficient python library for generating videos, currently at 10k+ downloads on PyPi. I simply wanted something that would handle the interactions between FFmpeg and python, without having to hard-code shell commands. The library is simple, taking in image objects from PIL, piping them into FFmpeg, handling all of the flags for rendering, and finally assembling the video with any sound effects. Got to learn a lot about the process of creating effective projects for real users and writing documentation. 'pip install fmov'"
         tags={["Python", "FFmpeg", "PyPi", "PIL"]}
         demolink="https://dylandibeneditto.github.io/fmov"
         repolink="https://github.com/dylandibeneditto/fmov"
@@ -44,14 +44,15 @@
     />
 
     <Repo
-        image=""
+        image="repo-images/null36.png"
         title="Null36 Split Keyboard"
-        description=""
+        description="A fun project to get me into the world of electronics and hardware. Got to design my own wireless split keyboard that perfectly fit my hands and allowed me to customize my layout to maximize my productivity when programming. Created everything from scratch: the physical layout of the keys, wiring of the PCB, case, firmware, and key layout. Also got my first experience sending designs to manufacturers for both PCB and 3D printing. I found the process of turning my own ideas into a physically tangible product to be very satisfying."
         tags={[
             "PCB Design",
-            "Product Design",
             "CAD (Fusion360)",
             "Electronics",
+            "C",
+            "Embedded Software",
         ]}
         repolink="https://github.com/dylandibeneditto/null36"
     />

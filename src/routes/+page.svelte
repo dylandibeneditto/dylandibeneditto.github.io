@@ -22,7 +22,6 @@
 		};
 
 		if (document.readyState === "complete") {
-			// page already loaded (important for SPA navigation)
 			runAnimation();
 		} else {
 			window.addEventListener("load", runAnimation, { once: true });

@@ -6,7 +6,7 @@
 	} from "svelte/reactivity/window";
 	import { startBackground } from "$lib/background.svelte";
 	import { onMount } from "svelte";
-	import Header from "$lib/components/header.svelte";
+	import Photo from "$lib/components/photo.svelte";
 
 	let canvas: HTMLCanvasElement;
 
