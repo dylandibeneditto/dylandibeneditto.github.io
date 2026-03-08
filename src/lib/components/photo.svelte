@@ -2,11 +2,11 @@
     let { image, location, time } = $props();
 </script>
 
-<div class="photo animate-on-load hidden">
+<div class="photo hidden">
     <img class="image" src={image} />
-    <div class="metadata animate-on-load">
-        <div class="location hidden">{location}</div>
-        <div class="time hidden">{time}</div>
+    <div class="metadata">
+        <div class="location">{location}</div>
+        <div class="time">{time}</div>
     </div>
 </div>
 

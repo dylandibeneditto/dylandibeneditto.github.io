@@ -159,7 +159,7 @@
 
 <div class="page animate-on-load">
 	<a href="/" data-sveltekit-reload class="back hidden">Go Back</a>
-	<div class="photos" bind:this={photosContainer}>
+	<div class="photos no-animate" bind:this={photosContainer}>
 		<Photo
 			image="pictures/massive-july25.jpg"
 			location="Leadville, CO"

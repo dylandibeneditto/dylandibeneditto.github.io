@@ -58,3 +58,10 @@ html {
   animation: var(--load-anim);
   animation-fill-mode: forwards;
 }
+
+.no-animate {
+  opacity: 1 !important;
+  transform: none;
+    animation: none;
+    animation-fill-mode: none;
+}
