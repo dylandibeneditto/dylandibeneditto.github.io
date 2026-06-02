@@ -1,11 +1,13 @@
 <div class="header animate-on-load">
     <div class="topbar hidden">
         <div class="name">Dylan DiBeneditto</div>
-        <div class="title">Software Engineer</div>
+        <div class="title">Engineer</div>
     </div>
     <div class="description hidden">
-        Seventeen-year-old high school student who's interested in Computer
-        Science, Engineering, and Math.
+        Rising college freshman who's interested in Electrical Engineering,
+        Computer Science, and Math.
+        <br />
+        Planning on attending Virginia Tech for a Bachelor's in Electrical Engineering.
     </div>
     <div class="links animate-on-load hidden">
         <a
