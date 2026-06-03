@@ -6,9 +6,10 @@
     <div class="description hidden">
         Rising college freshman who's interested in Electrical Engineering,
         Computer Science, and Math.
-        <br />
-        <br />
-        Planning on attending Virginia Tech for a Bachelor's in Electrical Engineering.
+    </div>
+    <div class="description hidden">
+        Planning on attending Virginia Tech for a Bachelor's in Electrical
+        Engineering.
     </div>
     <div class="links animate-on-load hidden">
         <a
