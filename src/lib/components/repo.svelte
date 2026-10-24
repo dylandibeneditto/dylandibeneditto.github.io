@@ -34,6 +34,7 @@
     .repo {
         display: flex;
         flex-direction: column;
+        min-width: 0;
         backdrop-filter: blur(2px);
         border-radius: 15px;
         gap: 0.5rem;
@@ -44,6 +45,12 @@
             corner-shape: squircle;
             border-radius: 30px;
         }
+    }
+
+    .image {
+        display: block;
+        width: 100%;
+        height: auto;
     }
 
     .data {

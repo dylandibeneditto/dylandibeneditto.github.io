@@ -93,4 +93,11 @@
         justify-content: center;
         align-items: stretch;
     }
+
+    @media (max-width: 600px) {
+        .repos {
+            width: 90vw;
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
 </style>

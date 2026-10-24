@@ -49,7 +49,20 @@
         }
 
         .footer {
-            grid-template-columns: auto auto auto auto;
+            box-sizing: border-box;
+            width: 90vw;
+            min-width: 0;
+            grid-template-columns: repeat(4, max-content);
+            justify-content: space-between;
+            gap: 1rem;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
     }
 </style>

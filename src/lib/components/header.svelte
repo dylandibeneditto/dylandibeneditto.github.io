@@ -64,4 +64,16 @@
     .links > *:hover {
         opacity: 0.7 !important;
     }
+
+    @media (max-width: 600px) {
+        .header {
+            box-sizing: border-box;
+            width: 90vw;
+            min-width: 0;
+        }
+
+        .links {
+            flex-wrap: wrap;
+        }
+    }
 </style>
