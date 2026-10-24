@@ -3,7 +3,13 @@
 </script>
 
 <div class="photo hidden">
-    <img class="image" src={image} />
+    <img
+        class="image"
+        src={image}
+        alt={`${location}, ${time}`}
+        loading="lazy"
+        decoding="async"
+    />
     <div class="metadata">
         <div class="location">{location}</div>
         <div class="time">{time}</div>

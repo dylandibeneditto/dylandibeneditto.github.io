@@ -6,8 +6,8 @@
     <div class="name hidden">Dylan DiBeneditto</div>
     <div class="title hidden">Electrical Engineer</div>
     <div></div>
-    <a class="email hidden" href="mailto:dibenedittod@gmail.com" target="_blank"
-        >dibenedittod@gmail.com</a
+    <a class="email hidden" href="mailto:dyland26@vt.edu" target="_blank"
+        >dyland26@vt.edu</a
     >
     <a
         class="github hidden"

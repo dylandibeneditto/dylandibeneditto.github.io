@@ -1,75 +1,131 @@
-export function startBackground(canvas: HTMLCanvasElement) {
-	const ctx = canvas.getContext('2d');
-	let frame: number;
-	let mouse = {x: 0, y: 0}
+export function startBackground(
+	canvas: HTMLCanvasElement,
+	startPaused = false,
+): { pause: () => void; resume: () => void; stop: () => void } {
+	const context = canvas.getContext("2d");
+	if (!context) {
+		return { pause: () => {}, resume: () => {}, stop: () => {} };
+	}
+	const ctx: CanvasRenderingContext2D = context;
+
+	let frame = 0;
+	let paused = startPaused;
+	let scale = 1;
+	let width = 0;
+	let height = 0;
+	let mouseX = 0;
+	let mouseY = 0;
+	const maxDevicePixelRatio = 2;
+
+	function resize() {
+		width = window.innerWidth;
+		height = window.innerHeight;
+		scale = Math.min(window.devicePixelRatio || 1, maxDevicePixelRatio);
+		canvas.width = Math.round(width * scale);
+		canvas.height = Math.round(height * scale);
+		ctx.setTransform(scale, 0, 0, scale, 0, 0);
+	}
 
 	function draw(t: number) {
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, width, height);
 
 		const time = t * 0.001;
 
 		// res tall grid
 		const resY = 30;
-		const resX = resY * (canvas.width / canvas.height);
+		const resX = resY * (width / height);
 
-		const scale = 0.1;
+		const noiseScale = 0.1;
 		const multiplier = 75;
 		const k = 3000;
 		const distMax = 75;
+		ctx.fillStyle = "#000";
 
-		for(let x = 0; x < resX; x++) {
-			for(let y = 0; y < resY; y++) { // TODO: lots of indents, maybe refactor this
-				let px = (x-resX/8) / (resX*0.75) * canvas.width;
-				let py = (y-resY/8) / (resY*0.75) * canvas.height;
+		for (let x = 0; x < resX; x++) {
+			for (let y = 0; y < resY; y++) {
+				let px = ((x - resX / 8) / (resX * 0.75)) * width;
+				let py = ((y - resY / 8) / (resY * 0.75)) * height;
 
-				const n = perlin(x * scale, y * scale, time * scale) * Math.PI * 2;
+				const n =
+					perlin(x * noiseScale, y * noiseScale, time * noiseScale) *
+					Math.PI *
+					2;
 
 				px += Math.cos(n) * multiplier;
 				py += Math.sin(n) * multiplier;
-				
-				const dx = mouse.x - (px);
-				const dy = mouse.y - (py);
 
-				const dist = Math.max(Math.sqrt(dx*dx + dy*dy), distMax);
+				const dx = mouseX - px;
+				const dy = mouseY - py;
+				const distanceSquared = dx * dx + dy * dy;
+				const dist =
+					distanceSquared > distMax * distMax
+						? Math.sqrt(distanceSquared)
+						: distMax;
 
-				const dirx = dx / dist
-				const diry = dy / dist
+				const dirx = dx / dist;
+				const diry = dy / dist;
 
 				px += -dirx * (k / dist);
 				py += -diry * (k / dist);
 
 				ctx.beginPath();
-				ctx.arc(px, py, window.devicePixelRatio, 0, 2*Math.PI);
-				const opacity = n/(Math.PI*6)+0.1 - (100/(t+0.1))
-				ctx.fillStyle = "rgba(0,0,0,"+opacity+")";
+				ctx.arc(px, py, 1, 0, 2 * Math.PI);
+				const opacity = n / (Math.PI * 6) + 0.1 - 100 / (t + 0.1);
+				ctx.globalAlpha = opacity;
 				ctx.fill();
 			}
 		}
 
-		frame = requestAnimationFrame(draw);
+		ctx.globalAlpha = 1;
+		if (!paused && !document.hidden) {
+			frame = requestAnimationFrame(draw);
+		}
 	}
 
 	function handleVisibility() {
-		if (document.hidden) cancelAnimationFrame(draw);
-		else frame = requestAnimationFrame(draw);
-	}
-	
-	function mousemove(event) {
-		mouse = { x: event.clientX*window.devicePixelRatio, y: event.clientY*window.devicePixelRatio };
+		if (document.hidden) {
+			cancelAnimationFrame(frame);
+		} else if (!paused) {
+			frame = requestAnimationFrame(draw);
+		}
 	}
 
+	function pause() {
+		paused = true;
+		cancelAnimationFrame(frame);
+	}
+
+	function resume() {
+		if (!paused) return;
+		paused = false;
+		if (!document.hidden) {
+			frame = requestAnimationFrame(draw);
+		}
+	}
+
+	function handleMouseMove(event: MouseEvent) {
+		mouseX = event.clientX;
+		mouseY = event.clientY;
+	}
+
+	resize();
+	window.addEventListener("resize", resize, { passive: true });
 	document.addEventListener("visibilitychange", handleVisibility);
-	document.addEventListener("mousemove", mousemove);
-	frame = requestAnimationFrame(draw);
-
-	return () => {
-		cancelAnimationFrame(draw)
-		document.removeEventListener("visibilitychange")
+	document.addEventListener("mousemove", handleMouseMove, { passive: true });
+	if (!paused && !document.hidden) {
+		frame = requestAnimationFrame(draw);
 	}
-}
 
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
+	return {
+		pause,
+		resume,
+		stop() {
+			cancelAnimationFrame(frame);
+			window.removeEventListener("resize", resize);
+			document.removeEventListener("visibilitychange", handleVisibility);
+			document.removeEventListener("mousemove", handleMouseMove);
+		},
+	};
 }
 
 //

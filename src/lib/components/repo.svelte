@@ -10,7 +10,7 @@
 </script>
 
 <div class="repo hidden">
-    <img class="image" src={image} />
+    <img class="image" src={image} alt={title} loading="lazy" decoding="async" />
     <div class="data">
         <div class="title">{title}</div>
         <div class="description">{description}</div>

@@ -1,26 +1,53 @@
 <script lang="ts">
-	import {
-		innerWidth,
-		innerHeight,
-		devicePixelRatio,
-	} from "svelte/reactivity/window";
 	import { startBackground } from "$lib/background.svelte";
 	import { triggerAnimateEffect } from "$lib/animateLoad.svelte";
 	import { onMount } from "svelte";
 	import Photo from "$lib/components/photo.svelte";
+	import LoadingScreen from "$lib/components/loading-screen.svelte";
 
 	let canvas: HTMLCanvasElement;
 	let photosContainer: HTMLDivElement;
+	let imageObserver: IntersectionObserver | undefined;
+	let layoutFrame = 0;
+	let isLoading = $state(true);
+	let spinComplete = false;
+	let pageReady = false;
+	let revealTimer: number | undefined;
+	let resumeTimer: number | undefined;
+	let resumeBackground: (() => void) | undefined;
+
+	function revealWhenReady() {
+		if (!spinComplete || !pageReady || revealTimer !== undefined) return;
+
+		revealTimer = window.setTimeout(() => {
+			isLoading = false;
+			resumeTimer = window.setTimeout(() => resumeBackground?.(), 250);
+		}, 250);
+	}
+
+	function handleSpinComplete() {
+		spinComplete = true;
+		revealWhenReady();
+	}
 
 	onMount(() => {
-		const stop = startBackground(canvas);
+		const background = startBackground(canvas, true);
+		resumeBackground = background.resume;
+		let animationStarted = false;
 
 		const runAnimation = () => {
-			console.log("Page fully loaded");
+			if (animationStarted) return;
+			animationStarted = true;
+			window.clearTimeout(fallbackTimer);
+			window.removeEventListener("load", runAnimation);
 			triggerAnimateEffect();
 			layoutMasonry();
 			setupLazyLoading();
+			pageReady = true;
+			revealWhenReady();
 		};
+
+		const fallbackTimer = window.setTimeout(runAnimation, 5000);
 
 		if (document.readyState === "complete") {
 			runAnimation();
@@ -28,12 +55,18 @@
 			window.addEventListener("load", runAnimation, { once: true });
 		}
 
-		window.addEventListener("resize", layoutMasonry);
+		window.addEventListener("resize", scheduleMasonryLayout, { passive: true });
 
 		return () => {
-			stop();
+			background.stop();
+			resumeBackground = undefined;
+			imageObserver?.disconnect();
+			cancelAnimationFrame(layoutFrame);
+			window.clearTimeout(fallbackTimer);
+			window.clearTimeout(revealTimer);
+			window.clearTimeout(resumeTimer);
 			window.removeEventListener("load", runAnimation);
-			window.removeEventListener("resize", layoutMasonry);
+			window.removeEventListener("resize", scheduleMasonryLayout);
 		};
 	});
 
@@ -56,7 +89,7 @@
 								() => {
 									photoElement.classList.remove("hidden");
 									photoElement.classList.add("animate");
-									layoutMasonry(); // Recalculate layout after image loads
+									scheduleMasonryLayout();
 								},
 								{ once: true },
 							);
@@ -75,9 +108,19 @@
 				threshold: 0.01,
 			},
 		);
+		imageObserver = observer;
 
 		items.forEach((item) => {
 			observer.observe(item);
+		});
+	}
+
+	function scheduleMasonryLayout() {
+		if (layoutFrame) return;
+
+		layoutFrame = requestAnimationFrame(() => {
+			layoutFrame = 0;
+			layoutMasonry();
 		});
 	}
 
@@ -126,9 +169,17 @@
 		}
 
 		// Initialize column heights
-		const columnHeights = new Array(columnCount).fill(0);
-
 		photosContainer.style.position = "relative";
+
+		items.forEach((item) => {
+			item.style.position = "absolute";
+			item.style.left = "";
+			item.style.top = "";
+			item.style.width = `${finalColumnWidth}px`;
+		});
+
+		const itemHeights = items.map((item) => item.offsetHeight);
+		const columnHeights = new Array<number>(columnCount).fill(0);
 
 		items.forEach((item, index) => {
 			// Find shortest column
@@ -137,13 +188,11 @@
 			);
 
 			// Position item
-			item.style.position = "absolute";
 			item.style.left = `${shortestColumn * (finalColumnWidth + gap)}px`;
 			item.style.top = `${columnHeights[shortestColumn]}px`;
-			item.style.width = `${finalColumnWidth}px`;
 
 			// Update column height
-			columnHeights[shortestColumn] += item.offsetHeight + gap;
+			columnHeights[shortestColumn] += itemHeights[index] + gap;
 		});
 
 		// Set container height
@@ -151,15 +200,65 @@
 	}
 </script>
 
+<LoadingScreen visible={isLoading} onSpinComplete={handleSpinComplete} />
+
 <canvas
 	bind:this={canvas}
-	height={(innerHeight.current ?? 0) * (devicePixelRatio.current ?? 1)}
-	width={(innerWidth.current ?? 0) * (devicePixelRatio.current ?? 1)}
 ></canvas>
 
 <div class="page animate-on-load">
 	<a href="/" data-sveltekit-reload class="back hidden">Go Back</a>
 	<div class="photos no-animate" bind:this={photosContainer}>
+		<Photo
+			image="pictures/cascades1-sep7.jpg"
+			location="Cascades, VA"
+			time="Sep '26"
+		/>
+		<Photo
+			image="pictures/cascades2-sep7.jpg"
+			location="Cascades, VA"
+			time="Sep '26"
+		/>
+		<Photo
+			image="pictures/obx1-aug7.jpg"
+			location="Outer Banks"
+			time="Aug '26"
+		/>
+		<Photo
+			image="pictures/obx2-aug7.jpg"
+			location="Outer Banks"
+			time="Aug '26"
+		/>
+		<Photo
+			image="pictures/obx3-aug7.jpg"
+			location="Outer Banks"
+			time="Aug '26"
+		/>
+		<Photo
+			image="pictures/obx4-aug7.jpg"
+			location="Outer Banks"
+			time="Aug '26"
+		/>
+		<Photo
+			image="pictures/obx5-aug7.jpg"
+			location="Outer Banks"
+			time="Aug '26"
+		/>
+		<Photo
+			image="pictures/obx6-aug7.JPG"
+			location="Outer Banks"
+			time="Aug '26"
+		/>
+		<Photo
+			image="pictures/obx7-aug7.jpg"
+			location="Outer Banks"
+			time="Aug '26"
+		/>
+		<Photo
+			image="pictures/bears3-may25.JPG"
+			location="Bear's Den, VA"
+			time="May '25"
+		/>
 		<Photo
 			image="pictures/massive-july25.jpg"
 			location="Leadville, CO"
